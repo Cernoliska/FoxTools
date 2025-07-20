@@ -1,4 +1,11 @@
-// ==UserScript== // @name         🦊 FoxTools // @namespace    https://id.wikipedia.org/wiki/Pengguna:Rubah_Hitam_Vukova // @version      1.7 // @description  Membantu pelaporan vandalisme, penghapusan cepat, dan permintaan penguncian global // @author       Rubah Hitam Vukova // @licence      CC-BY-SA 4.0 // @match        https://.wikipedia.org/ // @match        https://.wikivoyage.org/ // @grant        none // ==/UserScript==
+// 🦊 FoxTools
+// @Pembuat: Rubah Hitam Vukova
+// @Versi: 1.7
+// @Deskripsi: Membantu pelaporan vandalisme, penghapusan cepat, dan permintaan penguncian global
+// @Lisensi: CC-BY-SA 4.0
+// @Memerlukan hak: Pengguna terkonfirmasi otomatis
+// https://id.wikipedia.org/ 
+// https://id.wikivoyage.org/ 
 
 (function () { 
   'use strict';
