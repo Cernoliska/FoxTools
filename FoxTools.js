@@ -3,7 +3,7 @@
 // @Versi: 1.7
 // @Deskripsi: Membantu pelaporan vandalisme, penghapusan cepat, dan permintaan penguncian global
 // @Lisensi: CC-BY-SA 4.0
-// @Memerlukan hak: Pengguna terkonfirmasi otomatis
+// @Memerlukan_hak: Pengguna terkonfirmasi otomatis
 // https://id.wikipedia.org/ 
 // https://id.wikivoyage.org/ 
 
