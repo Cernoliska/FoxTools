@@ -21,8 +21,8 @@
     menu.innerHTML = `
     <div style="position:fixed;top:20%;left:50%;transform:translateX(-50%);background:#1e1e1e;color:#e0e0e0;font-family:Segoe UI,Roboto,sans-serif;border:1px solid #444;padding:20px;border-radius:10px;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.5);">
     <strong style="font-size:18px;"><center><big>${FoxTools}</big></center></strong><br><br>
-    <button class="fox-btn" id="btn-lapor-vandalisme">🕵️ Melaporkan Vandalisme</button><br>
-    <button class="fox-btn" id="btn-lapor-proksi">🖥️ Melaporkan IP Proksi Terbuka</button><br>
+    <button class="fox-btn" id="btn-iptv">🕵️ Melaporkan Vandalisme</button><br>
+    <button class="fox-btn" id="btn-ipt">🖥️ Melaporkan IP Proksi Terbuka</button><br>
     <button class="fox-btn" id="btn-kpc">🗑️ Meminta Penghapusan Cepat</button><br>
     <button class="fox-btn" id="btn-mass-rollback">🔁 Pengembalian Revisi Massal</button><br><br>
     <button class="fox-btn" id="btn-close-foxtools">❌ Tutup</button><br><br>
@@ -33,8 +33,8 @@
     document.head.appendChild(style);
     document.body.appendChild(menu);
     
-    document.getElementById('btn-lapor-vandalisme').onclick = () => mw.loader.load('/w/index.php?title=Pengguna:Rubah_Hitam_Vukova/FoxTools/vandalisme.js&action=raw&ctype=text/javascript');
-    document.getElementById('btn-lapor-proksi').onclick = () => mw.loader.load('/w/index.php?title=Pengguna:Rubah_Hitam_Vukova/FoxTools/proksi.js&action=raw&ctype=text/javascript');
+    document.getElementById('btn-iptv').onclick = () => mw.loader.load('/w/index.php?title=Pengguna:Rubah_Hitam_Vukova/FoxTools/iptv.js&action=raw&ctype=text/javascript');
+    document.getElementById('btn-ipt').onclick = () => mw.loader.load('/w/index.php?title=Pengguna:Rubah_Hitam_Vukova/FoxTools/ipt.js&action=raw&ctype=text/javascript');
     document.getElementById('btn-kpc').onclick = () => mw.loader.load('/w/index.php?title=Pengguna:Rubah_Hitam_Vukova/FoxTools/kpc.js&action=raw&ctype=text/javascript');
     document.getElementById('btn-mass-rollback').onclick = () => alert(`${FoxTools}\n\nFitur "Pengembalian Revisi Massal" sedang dalam pengembangan.`);
     document.getElementById('btn-close-foxtools').onclick = () => menu.remove();
