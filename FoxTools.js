@@ -1,6 +1,6 @@
 // 🦊 FoxTools
 // @Pembuat: Rubah Hitam Vukova
-// @Versi: 1.7
+// @Versi: 1.8
 // @Deskripsi: Membantu pelaporan vandalisme, penghapusan cepat, dan permintaan penguncian global
 // @Lisensi: CC-BY-SA 4.0
 // @Memerlukan_hak: Pengguna terkonfirmasi otomatis
