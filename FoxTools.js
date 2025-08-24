@@ -1,5 +1,5 @@
 /**
- * +---------------------------------------------------;;;;-----------------------------+
+ * +------------------------------------------------------------------------------------+
  * |                  === ⚠️ PERHATIAN ⚠️ ===                                           |
  * |             Mengubah halaman ini dapat mempengaruhi banyak pengguna.               |
  * |           Harap diskusi di [[Pembicaraan Wikipedia:FoxTools]] sebelum menyunting.  |         	 
