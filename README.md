@@ -1,4 +1,4 @@
-FoxTools
+# FoxTools
 
 FoxTools adalah sebuah perkakas ringan serbaguna berbasis JavaScript yang dirancang untuk membantu pengguna Wikipedia bahasa Indonesia dalam menangani kasus vandalisme, menandai halaman untuk penghapusan cepat, permintaan pelindungan halaman, serta pengembalian revisi massal secara efisien dan lainnya.
 FoxTools bisa digunakan jika pengguna memiliki hak terkonfirmasi otomatis, dan pengurus dapat mengakses fitur tambahan melalui Sysop FoxTools.
