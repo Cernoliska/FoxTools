@@ -407,7 +407,7 @@
         <select id="sysop-protect-level" class="foxtools-input">
             <option value="">Tidak ada</option>
             <option value="autoconfirmed">Semi (Terkonfirmasi otomatis)</option>
-            <option value="extendedconfirmed" disabled>Lanjutan (Terkonfirmasi lanjutan) [Coming soon!]</option>
+            <option value="extendedconfirmed">Lanjutan (Terkonfirmasi lanjutan)</option>
             <option value="sysop">Penuh (Pengurus)</option>
         </select>
         <br>
