@@ -499,54 +499,179 @@
         }
     });
  }
-  
- function panelMassRollbackSysop() {
-    const isContribsPage = mw.config.get('wgCanonicalSpecialPageName') === 'Contributions';
-    const panel = bukaPanel();
-    const konten = document.getElementById('fox-content');
 
-    if (!isContribsPage) {
-        konten.innerHTML = `<strong>↩️ Mass Rollback – Sysop FoxTools</strong><br><br>
-        🔴 Fitur ini hanya bisa dipakai di halaman kontribusi pengguna.`;
+$(document).ready(function () {
+    if (mw.config.get('wgCanonicalSpecialPageName') !== 'Contributions') {
         return;
     }
 
-    const rollbackLinks = Array.from(document.querySelectorAll('.mw-rollback-link a'));
-    if (!rollbackLinks.length) {
-        konten.innerHTML = `<strong>↩️ Mass Rollback – Sysop FoxTools</strong><br><br>
-        Tidak ditemukan tautan rollback di halaman ini.`;
-        return;
-    }
+    if ($('#rollback-box').length === 0) {
+        var $rollbackBox = $(`
+            <div id="rollback-box" class="mw-htmlform-ooui-wrapper oo-ui-layout oo-ui-panelLayout oo-ui-panelLayout-padded oo-ui-panelLayout-framed">
+                <form id="rollback-form" class="mw-htmlform mw-htmlform-ooui oo-ui-layout oo-ui-formLayout">
+                    <fieldset class="oo-ui-layout oo-ui-labelElement oo-ui-fieldsetLayout mw-collapsibleFieldsetLayout mw-collapsible mw-made-collapsible">
+                        <legend role="button" class="oo-ui-fieldsetLayout-header mw-collapsible-toggle mw-collapsible-toggle-expanded" aria-expanded="true" tabindex="0">
+                            <span class="oo-ui-iconElement-icon oo-ui-iconElement-noIcon"></span>
+                            <span class="oo-ui-labelElement-label">🦊 Sysop FoxTools – Mass Rollback</span>
+                            <span class="oo-ui-widget oo-ui-widget-enabled oo-ui-iconElement-icon oo-ui-icon-expand oo-ui-iconElement oo-ui-labelElement-invisible oo-ui-iconWidget">Lihat</span>
+                            <span class="oo-ui-widget oo-ui-widget-enabled oo-ui-iconElement-icon oo-ui-icon-collapse oo-ui-iconElement oo-ui-labelElement-invisible oo-ui-iconWidget">Tutup</span>
+                        </legend>
+                        <div class="oo-ui-fieldsetLayout-group mw-collapsible-content" style="display: block;">
+                            <div class="oo-ui-widget oo-ui-widget-enabled">
+                                <label for="rollback-reason" class="oo-ui-labelElement-label">Alasan untuk mengembalikan semua suntingan (opsional):</label>
+                                <select id="rollback-reason" class="oo-ui-inputWidget-input oo-ui-dropdownWidget">
+                                    <option value="">-- Pilih alasan --</option>
+                                    <option value="Uji coba">Uji coba</option>
+                                    <option value="Vandalisme">Vandalisme</option>
+                                    <option value="Spam">Spam</option>
+                                    <option value="Mengembalikan">Mengembalikan</option>
+                                </select>
+                                <input type="text" id="rollback-summary" placeholder="Alasan custom (opsional)" class="oo-ui-inputWidget-input oo-ui-textInputWidget-input" style="margin-top: 10px; padding: 5px; width: 100%;"/>
+                            </div>
+                            <div class="oo-ui-widget oo-ui-widget-enabled mw-htmlform-submit-buttons">
+                                <button id="rollback-selected-button" class="oo-ui-inputWidget-input oo-ui-buttonElement-button oo-ui-buttonElement-framed oo-ui-flaggedElement-progressive" style="padding: 5px 10px; background-color: #007bff; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Kembalikan suntingan yang dipilih</button>
+                                <button id="rollback-all-button" class="oo-ui-inputWidget-input oo-ui-buttonElement-button oo-ui-buttonElement-framed oo-ui-flaggedElement-destructive" style="padding: 5px 10px; background-color: #ff4136; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Kembalikan semua suntingan</button>
+                                <button id="cancel-rollback" class="oo-ui-inputWidget-input oo-ui-buttonElement-button oo-ui-buttonElement-framed" style="padding: 5px 10px; background-color: #aaa; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Batalkan</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        `);
 
-    konten.innerHTML = `
-        <strong>↩️ Mass Rollback – Sysop FoxTools</strong><br>
-        <label>Yakin ingin melakukan rollback massal pada <b>SEMUA</b> suntingan pengguna ini?</label><br><br>
-        <button id="sysop-rollback-confirm" class="foxtools-button">Ya, Rollback Semua</button>
-        <div id="sysop-rollback-status" style="margin-top:10px;"></div>
-    `;
+        $('#mw-content-text').prepend($rollbackBox);
 
-    document.getElementById('sysop-rollback-confirm').addEventListener('click', async () => {
-        let count = 0;
-        const statusBox = document.getElementById('sysop-rollback-status');
-        statusBox.innerHTML = "⏳ Sedang melakukan mass rollback...<br>";
-
-        const promises = rollbackLinks.map(async (link, i) => {
-            try {
-                await fetch(link.href, { method: 'POST', credentials: 'include' });
-                statusBox.innerHTML += `🟢 Sukses rollback #${i+1}<br>`;
-                count++;
-            } catch (e) {
-                console.warn(`Gagal rollback ${link.href}`, e);
-                statusBox.innerHTML += `🔴 Gagal rollback #${i+1}<br>`;
+        // Synchronize dropdown with input field
+        $('#rollback-reason').change(function () {
+            var selectedReason = $(this).val();
+            var currentSummary = $('#rollback-summary').val();
+            if (!currentSummary) {
+                $('#rollback-summary').val(selectedReason);
             }
         });
 
-        await Promise.all(promises);
+        $('#rollback-box .mw-collapsible-toggle').click(function () {
+            var $content = $(this).closest('fieldset').find('.mw-collapsible-content');
+            var isExpanded = $(this).attr('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                $content.slideUp();
+                $(this).attr('aria-expanded', 'false');
+                $(this).find('.oo-ui-icon-collapse').hide();
+                $(this).find('.oo-ui-icon-expand').show();
+            } else {
+                $content.slideDown();
+                $(this).attr('aria-expanded', 'true');
+                $(this).find('.oo-ui-icon-expand').hide();
+                $(this).find('.oo-ui-icon-collapse').show();
+            }
+        });
         
-        notiOK(`🟢 ${count} revisi telah dikembalikan..`);
-        document.getElementById('fox-panel').style.display = 'none';
-    });
- }
+        $('#rollback-selected-button').click(function () {
+            var userName = mw.config.get('wgRelevantUserName');
+            var summary = $('#rollback-summary').val();
+            var api = new mw.Api();
+
+            var selectedRevisions = $('input[type="checkbox"].rollback-checkbox:checked').map(function () {
+                return {
+                    title: $(this).data('title'),
+                    revid: $(this).data('revid'),
+                    parentid: $(this).data('parentid')
+                };
+            }).get();
+
+            if (selectedRevisions.length === 0) {
+                alert('🦊 FoxTools\n\nTidak ada suntingan yang ditandai untuk dikembalikan.');
+                return;
+            }
+
+            var rollbackPromises = selectedRevisions.map(function (contrib) {
+                var formattedSummary = `Mengembalikan suntingan [[Istimewa:Kontribusi/${userName}|${userName}]] secara massal` + (summary ? `: ${summary}` : '') + ` (${SysopFoxTools})`;
+
+                return api.postWithToken('csrf', {
+                    action: 'edit',
+                    undoafter: contrib.parentid,
+                    undo: contrib.revid,
+                    title: contrib.title,
+                    summary: formattedSummary,
+                    tags: 'FoxTools'
+                });
+            });
+
+            Promise.all(rollbackPromises).then(function () {
+                alert('🦊 FoxTools\n\nSuntingan yang dipilih telah dikembalikan!');
+                location.reload();
+            }).catch(function (error) {
+                console.error('An error occured when reverting changes:', error);
+                alert('An error occurred while reverting edit(s).');
+            });
+        });
+
+        $('#rollback-all-button').click(function () {
+            var userName = mw.config.get('wgRelevantUserName');
+            var summary = $('#rollback-summary').val();
+            var api = new mw.Api();
+
+            api.get({
+                action: 'query',
+                list: 'usercontribs',
+                ucuser: userName,
+                uclimit: 'max',
+                ucprop: 'ids|title',
+                format: 'json'
+            }).done(function (data) {
+                var contributions = data.query.usercontribs;
+
+                if (contributions.length === 0) {
+                    alert('🦊 FoxTools\n\nTidak ada suntingan yang ditandai untuk dikembalikan.');
+                    return;
+                }
+
+                var rollbackPromises = contributions.map(function (contrib) {
+                    var formattedSummary = `Mengembalikan suntingan [[Istimewa:Kontribusi/${userName}|${userName}]] secara massal` + (summary ? `: ${summary}` : '') + `(${SysopFoxTools})`;
+
+                    return api.postWithToken('csrf', {
+                        action: 'edit',
+                        undoafter: contrib.parentid,
+                        undo: contrib.revid,
+                        title: contrib.title,
+                        summary: formattedSummary,
+                        tags: 'FoxTools'
+                    });
+                });
+
+                Promise.all(rollbackPromises).then(function () {
+                    alert('🦊 FoxTools\n\nSuntingan yang dipilih telah dikembalikan!');
+                    location.reload();
+                }).catch(function (error) {
+                    console.error('An error occured when reverting:', error);
+                    alert('An error occured while reverting.');
+                });
+            }).fail(function (error) {
+                console.error('Error with downloading contributions:', error);
+                alert('Error with downloading contributions.');
+            });
+        });
+
+        $('#cancel-rollback').click(function () {
+            $('#rollback-box').hide();
+        });
+
+        $('li[data-mw-revid]').each(function () {
+            var $this = $(this);
+            var revid = $this.data('mw-revid');
+            var parentid = $this.data('mw-prev-revid');
+            var title = $this.find('.mw-contributions-title').text();
+
+            var $checkbox = $('<input type="checkbox" class="rollback-checkbox" style="margin-right: 5px;">')
+                .data('revid', revid)
+                .data('parentid', parentid)
+                .data('title', title);
+
+            $this.prepend($checkbox);
+        });
+    }
+  });
 
   buatTombol('🔨 Blokir Pengguna', panelBlokir);
   buatTombol('🗑 Hapus Halaman', panelHapus);
