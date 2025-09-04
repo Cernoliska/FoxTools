@@ -1,8 +1,8 @@
 /**
  * +------------------------------------------------------------------------------------+
- * |                  === ⚠️ PERHATIAN ⚠️ ===                                           |
- * |             Mengubah halaman ini dapat mempengaruhi banyak pengguna.               |
- * |           Harap diskusi di [[Pembicaraan Wikipedia:FoxTools]] sebelum menyunting.  |         	 
+ * |         === ⚠️ PERHATIAN ⚠️ ===                                                    |
+ * |   Mengubah halaman ini dapat mempengaruhi banyak pengguna.                         |
+ * |   Harap diskusi di [[Pembicaraan Wikipedia:FoxTools]] sebelum menyunting.          |         	 
  * +------------------------------------------------------------------------------------+
  *
  * This is Vukova's FoxTools, anti-vandalism mobile script for every Wikipedian. Visit [[WP:FT]] for more information.
